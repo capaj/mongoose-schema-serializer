@@ -26,6 +26,7 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "mocha": "^2.3.4",
+    "mongoose": "^4.3.7",
     "standard": "^5.4.1"
   }
 }
