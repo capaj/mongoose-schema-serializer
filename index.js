@@ -1,6 +1,4 @@
 'use strict'
-const types = {}
-
 let glob
 if (typeof window !== 'undefined') {
   glob = window
@@ -19,7 +17,12 @@ module.exports = function (mgSchema) {
   }
   function stringify (schema) {
     return JSON.stringify(schema, (key, value) => {
-      if (typeof value === 'function') {
+      if (value instanceof RegExp) {
+        return ('__REGEXP ' + value.toString())
+      } else if (typeof value === 'function') {
+        if (key === 'validator') {
+          return value.toString()
+        }
         return value.name
       }
       return value
@@ -34,6 +37,11 @@ module.exports = function (mgSchema) {
         return mgSchema.Types.Mixed
       } else if (value === 'ObjectId') {
         return mgSchema.Types.ObjectId
+      } else if (key === 'validator') {
+        return (new Function( 'return( ' + value + ' );'))()
+      } if (value.toString().indexOf('__REGEXP ') == 0) {
+        var m = value.split('__REGEXP ')[1].match(/\/(.*)\/(.*)?/)
+        return new RegExp(m[1], m[2] || '')
       }
       return value
     })
