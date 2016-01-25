@@ -8,3 +8,12 @@ Useful, when you need to send your schema over the network-for example to your a
 ```
 npm i mongoose-schema-serializer
 ```
+
+## Usage
+```javascript
+var Schema = mongoose.Schema  //on the frontend you can provide an object with same structure to satisfy it
+const mss = require('../index')(Schema)
+const json = mss.stringify(schema)
+// then on frontend
+const schema = mss.parse(json)
+```
