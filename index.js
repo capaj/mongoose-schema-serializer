@@ -9,7 +9,7 @@ if (typeof window !== 'undefined') {
 module.exports = function (mgSchema) {
   if (!mgSchema) {
     mgSchema = {
-      types: {
+      Types: {
         Mixed: 'Mixed',
         ObjectId: 'ObjectId'
       }
@@ -38,8 +38,8 @@ module.exports = function (mgSchema) {
       } else if (value === 'ObjectId') {
         return mgSchema.Types.ObjectId
       } else if (key === 'validator') {
-        return (new Function( 'return( ' + value + ' );'))()
-      } if (value.toString().indexOf('__REGEXP ') == 0) {
+        return (new Function('return( ' + value + ' );'))()
+      } if (value && value.toString && value.toString().indexOf('__REGEXP ') === 0) {
         var m = value.split('__REGEXP ')[1].match(/\/(.*)\/(.*)?/)
         return new RegExp(m[1], m[2] || '')
       }
