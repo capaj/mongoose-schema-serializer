@@ -1,5 +1,5 @@
 'use strict'
-let glob
+var glob
 if (typeof window !== 'undefined') {
   glob = window
 } else {
