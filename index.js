@@ -1,5 +1,6 @@
 'use strict'
 var glob
+
 if (typeof window !== 'undefined') {
   glob = window
 } else {
@@ -16,7 +17,7 @@ module.exports = function (mgSchema) {
     }
   }
   function stringify (schema) {
-    return JSON.stringify(schema, (key, value) => {
+    return JSON.stringify(schema, function (key, value) {
       if (value instanceof RegExp) {
         return ('__REGEXP ' + value.toString())
       } else if (typeof value === 'function') {
@@ -30,7 +31,7 @@ module.exports = function (mgSchema) {
   }
 
   function parse (json) {
-    return JSON.parse(json, (key, value) => {
+    return JSON.parse(json, function (key, value) {
       if (glob.hasOwnProperty(value)) {
         return glob[value]
       } else if (value === 'Mixed') {
@@ -48,7 +49,7 @@ module.exports = function (mgSchema) {
   }
 
   return {
-    stringify,
-    parse
+    stringify: stringify,
+    parse: parse
   }
 }
